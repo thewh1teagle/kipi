@@ -1,4 +1,5 @@
 use clap::Parser;
+use eyre::Result;
 use std::process;
 
 /// Keep your OS awake
@@ -52,10 +53,10 @@ fn encode_url(url: String) -> String {
 }
 
 /// Open issue URL in Github with passed information and exit
-fn report_issue() {
+fn report_issue() -> Result<()> {
   let url = issue_url();
   log::debug!("open url {}", url);
-  open::that(url).expect("Can't open URL in browser");
+  open::that(url)?;
   process::exit(0);
 }
 
@@ -71,13 +72,13 @@ fn print_version() {
 }
 
 /// Parse args with default handlers for version and such
-pub fn parse_args() -> Args {
+pub fn parse_args() -> Result<Args> {
   let args = Args::parse();
   if args.version {
     print_version();
   }
   if args.report_issue {
-    report_issue();
+    report_issue()?;
   }
-  args
+  Ok(args)
 }

@@ -1,8 +1,9 @@
 use args::{parse_args, Args};
 use std::{process, thread, time::Duration};
 mod args;
+use eyre::Result;
 
-fn setup(args: &Args) {
+fn setup(args: &Args) -> Result<()> {
   // Graceful exit
   ctrlc::set_handler(move || {
     // Disable keepawake
@@ -10,18 +11,21 @@ fn setup(args: &Args) {
     keepawake::Builder::default()
       .display(false)
       .idle(false)
-      .sleep(false);
+      .sleep(false)
+      .create()
+      .expect("Error setting keepawake");
+
     process::exit(0);
-  })
-  .expect("Error setting Ctrl+C handler");
+  })?;
 
   // Keep OS awake based on args
   log::debug!("Setup keepawake with {:?}", args);
   keepawake::Builder::default()
     .display(args.display)
     .idle(args.os)
-    .create()
-    .expect("Error setting keepawake");
+    .sleep(args.os)
+    .create()?;
+  Ok(())
 }
 
 /// Keep thread alive based on args
@@ -37,9 +41,10 @@ fn keep_run(args: &Args) {
   }
 }
 
-fn main() {
+fn main() -> Result<()> {
   env_logger::init();
-  let args = parse_args();
-  setup(&args);
+  let args = parse_args()?;
+  setup(&args)?;
   keep_run(&args);
+  Ok(())
 }
