@@ -2,6 +2,10 @@
 
 Keep your OS awake
 
+# Download
+
+You can download `kipi` from this [website](https://thewh1teagle.github.io/kipi/)
+
 # Usage
 
 ```console
