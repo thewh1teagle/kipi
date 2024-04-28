@@ -29,3 +29,7 @@ Options:
       --report-issue         Report an issue in Github
   -h, --help                 Print help
 ```
+
+# Platforms
+
+Kipi works on `Windows` / `Linux` / `macOS`
