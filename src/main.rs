@@ -26,7 +26,6 @@ fn main() -> Result<()> {
     let _keep = keepawake::Builder::default()
       .display(false)
       .idle(false)
-      .sleep(false)
       .create()
       .expect("Error setting keepawake");
     process::exit(0);
@@ -43,7 +42,6 @@ fn main() -> Result<()> {
     .app_name(env!("CARGO_PKG_NAME"))
     .display(args.display)
     .idle(args.os)
-    .sleep(args.os)
     .create()?;
   keep_run(&args);
   Ok(())
