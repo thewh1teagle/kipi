@@ -9,8 +9,10 @@ homepage = "https://github.com/thewh1teagle/kipi"
 [dependencies]
 clap = { version = "4.5.4", features = ["derive"] }
 ctrlc = "3.4.4"
+env_logger = "0.11.3"
 humantime = "2.1.0"
 keepawake = "0.5.1"
+log = "0.4.21"
 open = "5.1.2"
 os_info = "3.8.2"
 url = "2.5.0"
