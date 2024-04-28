@@ -6,6 +6,14 @@ Keep your OS awake
 
 You can download `kipi` from this [website](https://thewh1teagle.github.io/kipi/)
 
+# Update
+
+You can update `kipi` by execute
+
+```console
+kipi-update
+```
+
 # Usage
 
 ```console
