@@ -3,31 +3,6 @@ use std::{process, thread, time::Duration};
 mod args;
 use eyre::Result;
 
-fn setup(args: &Args) -> Result<()> {
-  // Graceful exit
-  ctrlc::set_handler(move || {
-    // Disable keepawake
-    log::debug!("Detect Ctrl+C");
-    keepawake::Builder::default()
-      .display(false)
-      .idle(false)
-      .sleep(false)
-      .create()
-      .expect("Error setting keepawake");
-
-    process::exit(0);
-  })?;
-
-  // Keep OS awake based on args
-  log::debug!("Setup keepawake with {:?}", args);
-  keepawake::Builder::default()
-    .display(args.display)
-    .idle(args.os)
-    .sleep(args.os)
-    .create()?;
-  Ok(())
-}
-
 /// Keep thread alive based on args
 fn keep_run(args: &Args) {
   if let Some(duration) = args.duration {
@@ -44,7 +19,32 @@ fn keep_run(args: &Args) {
 fn main() -> Result<()> {
   env_logger::init();
   let args = parse_args()?;
-  setup(&args)?;
+  // Graceful exit
+  ctrlc::set_handler(move || {
+    // Disable keepawake
+    log::debug!("Detect Ctrl+C");
+    let _keep = keepawake::Builder::default()
+      .display(false)
+      .idle(false)
+      .sleep(false)
+      .create()
+      .expect("Error setting keepawake");
+    process::exit(0);
+  })?;
+
+  // Keep OS awake based on args
+  log::debug!("Setup keepawake with {:?}", args);
+  let _keep = keepawake::Builder::default()
+    .reason(if args.display {
+      "Keep display on"
+    } else {
+      "Keep OS awake"
+    })
+    .app_name(env!("CARGO_PKG_NAME"))
+    .display(args.display)
+    .idle(args.os)
+    .sleep(args.os)
+    .create()?;
   keep_run(&args);
   Ok(())
 }
