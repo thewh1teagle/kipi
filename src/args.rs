@@ -25,6 +25,10 @@ pub struct Args {
   /// Report an issue in Github
   #[arg(long)]
   report_issue: bool,
+
+  /// Update kipi and exit
+  #[arg(long, default_missing_value = "true")]
+  pub update: bool,
 }
 
 /// Return new issue URL with OS info
@@ -71,6 +75,12 @@ fn print_version() {
   process::exit(0);
 }
 
+/// Print version of the program and exit
+fn update_program() -> Result<()> {
+  process::Command::new(format!("{}-update", env!("CARGO_PKG_NAME"))).spawn()?;
+  process::exit(0);
+}
+
 /// Parse args with default handlers for version and such
 pub fn parse_args() -> Result<Args> {
   let args = Args::parse();
@@ -79,6 +89,9 @@ pub fn parse_args() -> Result<Args> {
   }
   if args.report_issue {
     report_issue()?;
+  }
+  if args.update {
+    update_program()?;
   }
   Ok(args)
 }
