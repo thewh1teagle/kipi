@@ -13,9 +13,9 @@ pub struct Args {
   #[arg(short, long, default_value_t = false)]
   pub display: bool,
 
-  /// Duration for which to keep the system awake. Optional.
+  /// Duration for which to keep the system awake. Optional. Example: --duration 1h30m (keeps awake for 1 hour and 30 minutes)
   #[arg(long)]
-  pub duration: Option<humantime::Duration>, // Optional duration
+  pub duration: Option<humantime::Duration>,
 
   /// Get version of the program
   #[arg(short, long, default_missing_value = "true")]
