@@ -1,10 +1,26 @@
 # kipi
 
-Keep your OS awake
+Keep your operating system or display awake
+
+Supports: `Windows` / `Linux` / `macOS`
 
 # Download
 
 You can download `kipi` from this [website](https://thewh1teagle.github.io/kipi/)
+
+Alternatively, by execute:
+
+## Windows
+
+```console
+powershell -c "irm https://github.com/thewh1teagle/kipi/releases/latest/download/kipi-installer.ps1 | iex"
+```
+
+## Linux / macOS
+
+```console
+curl --proto '=https' --tlsv1.2 -LsSf https://github.com/thewh1teagle/kipi/releases/latest/download/kipi-installer.sh | sh
+```
 
 # Update
 
@@ -29,7 +45,3 @@ Options:
       --report-issue         Report an issue in Github
   -h, --help                 Print help
 ```
-
-# Platforms
-
-Kipi works on `Windows` / `Linux` / `macOS`
