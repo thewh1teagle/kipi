@@ -3,6 +3,43 @@ use eyre::Result;
 use humantime::Duration;
 
 /*
+**MacOS**
+
+View scheduled wake-ups with:
+    sudo pmset -g sched
+
+Set a scheduled wake-up (one-time event) with:
+    sudo pmset schedule wakeorpoweron "MM/DD/YY HH:MM:SS"
+
+Cancel a scheduled event with:
+    sudo pmset schedule cancel <event_id>
+
+Note: The event will be automatically deleted after it is triggered.
+*/
+#[cfg(target_os = "macos")]
+pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
+  use chrono::Local;
+  use eyre::bail;
+  use std::process::Command;
+  let now = Local::now();
+  let wakeup_time = now + std::time::Duration::from_secs(schedule.as_secs());
+  let formatted_time = wakeup_time.format("%m/%d/%y %H:%M:%S").to_string();
+
+  let args = ["schedule", "wakeorpoweron", &formatted_time];
+  log::debug!("args: {:?}", args);
+  let output = Command::new("pmset").args(args).output()?;
+  if !output.status.success() {
+    bail!(
+      "pmset failed with status: {}",
+      output.status.code().unwrap_or(-1)
+    );
+  }
+  Ok(())
+}
+
+/*
+**Windows**
+
 References:
 - Detailed guide: https://www.codeproject.com/Tips/628562/How-to-wake-up-a-PC-using-waitable-timer
 - Verify active wake timers using: `powercfg /waketimers`
@@ -37,9 +74,9 @@ pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
 pub fn run(args: &Args) -> Result<()> {
   let schedule: Duration = args.schedule.unwrap();
 
-  #[cfg(not(windows))]
+  #[cfg(not(any(windows, target_os = "macos")))]
   panic!("Schedule wakeup is supported only in Windows");
 
-  #[cfg(windows)]
+  #[cfg(any(windows, target_os = "macos"))]
   scheduled_wakeup(schedule)
 }
