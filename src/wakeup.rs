@@ -5,6 +5,7 @@ use humantime::Duration;
 #[cfg(windows)]
 pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
   use windows::Win32::Foundation::HANDLE;
+  use windows::Win32::System::Power::{SetThreadExecutionState, ES_DISPLAY_REQUIRED};
   use windows::Win32::System::Threading::{
     CreateWaitableTimerW, SetWaitableTimer, WaitForSingleObject, INFINITE,
   };
@@ -18,6 +19,8 @@ pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
       None, None, true, // Resume from sleep
     )?;
     WaitForSingleObject(timer, INFINITE);
+    // Turn on the monitor
+    SetThreadExecutionState(ES_DISPLAY_REQUIRED);
   };
   Ok(())
 }
