@@ -2,6 +2,15 @@ use crate::args::Args;
 use eyre::Result;
 use humantime::Duration;
 
+/*
+References:
+- Detailed guide: https://www.codeproject.com/Tips/628562/How-to-wake-up-a-PC-using-waitable-timer
+- Verify active wake timers using: `powercfg /waketimers`
+
+Notes:
+- This functionality requires a motherboard that supports `Wake-up on RTC`.
+- A potential delay of up to 15 seconds may occur due to BIOS scheduling.
+*/
 #[cfg(windows)]
 pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
   use windows::Win32::Foundation::HANDLE;
