@@ -43,10 +43,12 @@ pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
 References:
 - Detailed guide: https://www.codeproject.com/Tips/628562/How-to-wake-up-a-PC-using-waitable-timer
 - Verify active wake timers using: `powercfg /waketimers`
+- Verify from hiberbate with `shutdown /h`
 
 Notes:
 - This functionality requires a motherboard that supports `Wake-up on RTC`.
 - A potential delay of up to 15 seconds may occur due to BIOS scheduling.
+- You may need to change `Allow wakeup timers` settings. Win+R -> `control powercfg.cpl,,3` -> Sleep -> Allow wake timers -> Enable instead of `Important only`.
 */
 #[cfg(windows)]
 pub fn scheduled_wakeup(schedule: Duration) -> Result<()> {
