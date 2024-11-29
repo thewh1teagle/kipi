@@ -18,6 +18,10 @@ pub struct Args {
   #[arg(long)]
   pub duration: Option<humantime::Duration>,
 
+  /// Schedule when to wakeup the PC from sleep. Optional. Example: --schedule 1m (schedule wake up in one minute)
+  #[arg(long)]
+  pub schedule: Option<humantime::Duration>,
+
   /// Get version of the program
   #[arg(short, long, default_missing_value = "true")]
   pub version: bool,

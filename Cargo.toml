@@ -18,6 +18,22 @@ open = "5.1.2"
 os_info = "3.8.2"
 url = "2.5.0"
 
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58.0", features = [
+    "Win32",
+    "Win32_System",
+    "Win32_System_Threading",
+    "Win32_Security",
+    "Win32_System_WindowsProgramming",
+    "Win32_System_Power",
+    "Win32_UI",
+    "Win32_UI_Input",
+] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+chrono = "0.4.38"
+
 # The profile that 'cargo dist' will build with
 [profile.dist]
 inherits = "release"
