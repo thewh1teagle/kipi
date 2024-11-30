@@ -36,4 +36,4 @@ kipi-update
 
 ## Gotchas
 
-On `Windows` when using `--schedule` for wakeup schedule, you may need to enable wake up timers by opening `run.exe` -> `control powercfg.cpl,,3` -> `Sleep` -> `Allow wake timers` -> `Enable` instead of `Important only`.
+On `Windows` when using `--schedule` for wakeup schedule, you may need to enable wake up timers by opening `run.exe` -> `control powercfg.cpl,,3` -> `Sleep` -> `Allow wake timers` -> `Enable` instead of `Important only`. To verify it's working run `powercfg /waketimers`
