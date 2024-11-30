@@ -8,18 +8,22 @@ Supports: `Windows` / `Linux` / `macOS`
 
 You can download `kipi` from this [website](https://thewh1teagle.github.io/kipi/)
 
-Alternatively, by execute:
-
-## Windows
+# Usage
 
 ```console
-powershell -c "irm https://github.com/thewh1teagle/kipi/releases/latest/download/kipi-installer.ps1 | iex"
-```
+Keep your OS awake
 
-## Linux / macOS
+Usage: kipi.exe [OPTIONS]
 
-```console
-curl --proto '=https' --tlsv1.2 -LsSf https://github.com/thewh1teagle/kipi/releases/latest/download/kipi-installer.sh | sh
+Options:
+  -o, --os                   Keep the operating system awake. Defaults to true
+  -d, --display              Keep the display awake. Defaults to false
+      --duration <DURATION>  Duration for which to keep the system awake. Optional. Example: --duration 1h30m (keeps awake for 1 hour and 30 minutes)
+      --schedule <SCHEDULE>  Schedule when to wakeup the PC from sleep. Optional. Example: --schedule 1m (schedule wake up in one minute)
+  -v, --version              Get version of the program
+      --report-issue         Report an issue in Github
+      --update               Update kipi and exit
+  -h, --help                 Print help
 ```
 
 # Update
@@ -30,18 +34,6 @@ You can update `kipi` by execute
 kipi-update
 ```
 
-# Usage
+## Gotchas
 
-```console
-Keep your OS awake
-
-Usage: kipi [OPTIONS]
-
-Options:
-  -o, --os                   Keep the operating system awake. Defaults to true
-  -d, --display              Keep the display awake. Defaults to false
-      --duration <DURATION>  Duration for which to keep the system awake. Optional. Example: --duration 1h30m (keeps awake for 1 hour and 30 minutes)
-  -v, --version              Get version of the program
-      --report-issue         Report an issue in Github
-  -h, --help                 Print help
-```
+On `Windows` when using `--schedule` for wakeup schedule, you may need to enable wake up timers by opening `run.exe` -> `control powercfg.cpl,,3` -> `Sleep` -> `Allow wake timers` -> `Enable` instead of `Important only`.
